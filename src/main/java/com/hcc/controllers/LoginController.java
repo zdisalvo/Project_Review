@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,11 +47,13 @@ public class LoginController {
 
         //logger.info(username);
 
-
+        //if (username.equals("admin") && password.equals("pass"))
         if (isValidUser) {
             // Return success response if user is valid
 //            model.put("name", username);
 //            model.put("password", password);
+
+            //model.addAttribute("error", true);
             return "index";
             //return ResponseEntity.ok().build();
         } else {

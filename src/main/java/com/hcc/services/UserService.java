@@ -33,14 +33,16 @@ public class UserService {
     }
 
     @Transactional
-    public boolean validateUser(String username, String password) {
+    public boolean validateUser(String username, String rawPassword) {
         User user = userRepository.findByUsername(username)
                 .orElse(null);
 
         if(user == null)
             return false;
 
-        if (user.getPassword().equals(password)) {
+        String encodedPassword = user.getPassword();
+
+        if (passwordEncoder.matches(rawPassword, encodedPassword)) {
             user.getAuthorities();
             return true;
         }
