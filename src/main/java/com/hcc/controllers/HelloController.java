@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 // this is an example controller feel free to delete this once you have created your own.
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/hello")
 public class HelloController {
     @Autowired
     HelloService helloService;
