@@ -1,6 +1,7 @@
 package com.hcc.entities;
 
 
+import com.hcc.enums.AuthorityEnum;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -16,13 +17,34 @@ public class Authority implements GrantedAuthority {
     @Column(name = "authority")
     String authority;
 
-    @Column(name = "user_id")
-    Long userId;
+//    @ElementCollection
+//    @CollectionTable(name = "users", joinColumns = @JoinColumn(name = "id"))
 
-    public Authority(Long id, String authority, Long userId) {
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(
+//            name = "users",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "id")
+//    )
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    //@Column(name = "user_id")
+    User user;
+
+//    @Column(name = "authorities_id")
+//    Long authoritiesId;
+
+    public Authority(Long id, String authority, User user) {
         this.id = id;
         this.authority = authority;
-        this.userId = userId;
+        this.user = user;
+//        this.authoritiesId = id;
+    }
+
+    public Authority(String authority, User user) {
+        this.authority = authority;
+        this.user = user;
     }
 
     public Authority(){}
@@ -43,11 +65,19 @@ public class Authority implements GrantedAuthority {
         this.authority = authority;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
+
+    //    public Long getAuthoritiesId() {
+//        return authoritiesId;
+//    }
+//
+//    public void setAuthoritiesId(Long authoritiesId) {
+//        this.authoritiesId = authoritiesId;
+//    }
 }

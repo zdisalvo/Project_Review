@@ -24,20 +24,48 @@ public class User {
 
 
 
+
+
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "authorities",
+//            joinColumns = @JoinColumn(name = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id")
+//    )
+
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+
+//    @ElementCollection
+//    @CollectionTable(name = "authorities", joinColumns = @JoinColumn(name = "user_id"))
+
+
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(
+//            name = "authorities",
+//            joinColumns = @JoinColumn(name = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id")
+//    )
+
+//    @OneToMany
+//    @Column(name = "id")
+
 //    @ElementCollection
 //    @CollectionTable(name = "authorities", joinColumns = @JoinColumn(name = "user_id"))
 //    @Column(name = "authority")
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "authorities",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "authorities_id")
-    )
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Authority> authorities;
 
     public User(Long id, Date cohortStartDate, String username, String password) {
         this.id = id;
+        this.cohortStartDate = cohortStartDate;
+        this.username = username;
+        this.password = password;
+        //this.authorities = authorities;
+    }
+
+    public User(Date cohortStartDate, String username, String password) {
         this.cohortStartDate = cohortStartDate;
         this.username = username;
         this.password = password;
@@ -78,7 +106,7 @@ public class User {
         this.password = password;
     }
 
-    public Collection<Authority> getAuthorities() {
+    public List<Authority> getAuthorities() {
         return authorities;
     }
 

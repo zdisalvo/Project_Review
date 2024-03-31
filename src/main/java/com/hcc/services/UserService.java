@@ -24,6 +24,7 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
 
+
     public void saveUser(User user) {
         // Encode the password before storing it
         String password = user.getPassword();
@@ -31,6 +32,7 @@ public class UserService {
         user.setPassword(encodedPassword);
         userRepository.save(user);
     }
+
 
     @Transactional
     public boolean validateUser(String username, String rawPassword) {
@@ -48,6 +50,13 @@ public class UserService {
         }
 
         return false;
+    }
+
+    public boolean userExists(String username) {
+        if(userRepository.findByUsername(username).isEmpty())
+            return false;
+
+        return true;
     }
 
 }

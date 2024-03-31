@@ -22,22 +22,36 @@ public class Assignment {
     @Column(name = "code_review_video_url")
     private String reviewVideoUrl;
 
-    @Column(name = "user_id")
-    private Long userId;
 
-    @Column(name = "code_reviewer_id")
-    private Long codeReviewerId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reviewer_id")
+    private User codeReviewer;
 
     public Assignment(Long id, String status, String branch, String reviewVideoUrl,
-                      String githubUrl, Integer number, Long userId, Long codeReviewerId) {
+                      String githubUrl, Integer number, User user, User codeReviewer) {
         this.id = id;
         this.status = status;
         this.branch = branch;
         this.reviewVideoUrl = reviewVideoUrl;
         this.githubUrl = githubUrl;
         this.number = number;
-        this.userId = userId;
-        this.codeReviewerId = codeReviewerId;
+        this.user = user;
+        this.codeReviewer = codeReviewer;
+    }
+
+    public Assignment(String status, String branch, String reviewVideoUrl,
+                      String githubUrl, Integer number, User user, User codeReviewer) {
+        this.status = status;
+        this.branch = branch;
+        this.reviewVideoUrl = reviewVideoUrl;
+        this.githubUrl = githubUrl;
+        this.number = number;
+        this.user = user;
+        this.codeReviewer = codeReviewer;
     }
 
     public Assignment(){}
@@ -90,19 +104,19 @@ public class Assignment {
         this.reviewVideoUrl = reviewVideoUrl;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Long getCodeReviewerId() {
-        return codeReviewerId;
+    public User getCodeReviewer() {
+        return codeReviewer;
     }
 
-    public void setCodeReviewerId(Long codeReviewerId) {
-        this.codeReviewerId = codeReviewerId;
+    public void setCodeReviewer(User codeReviewer) {
+        this.codeReviewer = codeReviewer;
     }
 }
