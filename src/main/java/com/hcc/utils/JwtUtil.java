@@ -24,6 +24,16 @@ public class JwtUtil {
     @Value("${jwt.secret}")
     private String secret;
 
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     //get username from token
     public String getUsernameFromToken(String token){
         return getClaimFromToken(token, Claims::getSubject);
@@ -54,7 +64,10 @@ public class JwtUtil {
 
     //generate token
     public String generateToken(User user){
-        return doGenerateToken(user.getUsername());
+
+        String token = doGenerateToken(user.getUsername());
+        setToken(token);
+        return token;
 
     }
 

@@ -10,6 +10,8 @@ public class Assignment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private static int assignmentCounter = 1;
+
     @Column(name = "status")
     private String status;
     @Column(name = "number")
@@ -38,7 +40,7 @@ public class Assignment {
         this.branch = branch;
         this.reviewVideoUrl = reviewVideoUrl;
         this.githubUrl = githubUrl;
-        this.number = number;
+        this.number = assignmentCounter++;
         this.user = user;
         this.codeReviewer = codeReviewer;
     }
@@ -49,9 +51,19 @@ public class Assignment {
         this.branch = branch;
         this.reviewVideoUrl = reviewVideoUrl;
         this.githubUrl = githubUrl;
-        this.number = number;
+        this.number = assignmentCounter++;
         this.user = user;
         this.codeReviewer = codeReviewer;
+    }
+
+    public Assignment(String status, String branch, String reviewVideoUrl,
+                      String githubUrl, User user) {
+        this.status = status;
+        this.branch = branch;
+        this.reviewVideoUrl = reviewVideoUrl;
+        this.githubUrl = githubUrl;
+        this.number = assignmentCounter++;
+        this.user = user;
     }
 
     public Assignment(){}
