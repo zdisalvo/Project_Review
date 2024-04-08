@@ -1,5 +1,7 @@
 package com.hcc.enums;
 
 public enum AuthorityEnum {
-    USER, REVIEWER, ADMIN
+    ROLE_LEARNER,
+    ROLE_REVIEWER,
+    ROLE_ADMIN;
 }

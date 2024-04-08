@@ -2,6 +2,7 @@ package com.hcc.services;
 
 import com.hcc.entities.User;
 import com.hcc.repositories.UserRepository;
+import com.hcc.utils.CustomPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,14 +22,25 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private CustomPasswordEncoder customPasswordEncoder;
+
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
 
+
+//    public void saveUser(User user) {
+//        // Encode the password before storing it
+//        String password = user.getPassword();
+//        String encodedPassword = passwordEncoder.encode(password);
+//        user.setPassword(encodedPassword);
+//        userRepository.save(user);
+//    }
 
     public void saveUser(User user) {
         // Encode the password before storing it
         String password = user.getPassword();
-        String encodedPassword = passwordEncoder.encode(password);
+        String encodedPassword = customPasswordEncoder.getPasswordEncoder().encode(password);
         user.setPassword(encodedPassword);
         userRepository.save(user);
     }
@@ -44,7 +56,7 @@ public class UserService {
 
         String encodedPassword = user.getPassword();
 
-        if (passwordEncoder.matches(rawPassword, encodedPassword)) {
+        if (customPasswordEncoder.getPasswordEncoder().matches(rawPassword, encodedPassword)) {
             user.getAuthorities();
             return true;
         }

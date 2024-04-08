@@ -47,6 +47,11 @@ public class Authority implements GrantedAuthority {
         this.user = user;
     }
 
+    public Authority(String authority) {
+        this.authority = authority;
+        this.user = getUser();
+    }
+
     public Authority(){}
 
     public Long getId() {
