@@ -31,6 +31,22 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
+
+//        http
+//                .authorizeRequests()
+//                .antMatchers("/").permitAll() // Allow access to public resources
+//                .anyRequest().authenticated() // All other requests require authentication
+//                .and()
+//                .formLogin() // Use form-based authentication
+//                .loginPage("/login").permitAll() // Specify custom login page
+//                .defaultSuccessUrl("/dashboard", true) // Redirect to /dashboard after successful login
+//                .and()
+//                .logout() // Configure logout
+//                .logoutUrl("/logout") // Specify logout URL
+//                .logoutSuccessUrl("/login?logout") // Redirect to login page after logout
+//                .permitAll()
+//                .and()
+//                .csrf().disable(); // Disable CSRF protection for simplicity (not recommended for production)
     }
 
 }
