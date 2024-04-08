@@ -10,14 +10,15 @@
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-//jwt filter import
-//authentication manager bean
-
-
-
+////jwt filter import
+////authentication manager bean
+//
+//
+//
 //@Configuration
 //@EnableWebSecurity
 //public class SecurityConfig extends WebSecurityConfigurerAdapter {
+//
 //
 //    @Bean
 //    public PasswordEncoder passwordEncoder() {
@@ -49,24 +50,12 @@
 //                .and()
 //                .logout()
 //                .permitAll();
-
-
-
-
-
-
-
-//                .authorizeRequests()
-//                .antMatchers("/", "/index.html").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login").permitAll()
-////                .loginProcessingUrl("/api/auth/login")
-//                .successForwardUrl("/index.html")
-//                .failureForwardUrl("/index.html");
-//                .and()
-//                .logout().permitAll();
+//
+//
+//
+//
+//
+//
 //    }
 //}
 
