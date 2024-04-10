@@ -25,8 +25,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> userOpt = userRepo.findByUsername(username);
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.getPasswordEncoder().encode("asdfasdf"));
+        User user = new User();
+        if (userOpt.isPresent()) {
+            user.setUsername(username);
+            user.setPassword(passwordEncoder.getPasswordEncoder().encode("asdfasdf"));
+        }
+
+
         return userOpt.orElseThrow(() -> new UsernameNotFoundException("Invalid Credentials"));
     }
 }
