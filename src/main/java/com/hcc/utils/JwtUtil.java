@@ -75,7 +75,8 @@ public class JwtUtil {
         Claims claims = Jwts.claims().setSubject(subject);
         claims.put("scopes",
                 Arrays.asList(new SimpleGrantedAuthority("LEARNER_ROLE"),
-                new SimpleGrantedAuthority("CODE_REVIEWER_ROLE")));
+                new SimpleGrantedAuthority("CODE_REVIEWER_ROLE"),
+                new SimpleGrantedAuthority("ADMIN_ROLE")));
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
