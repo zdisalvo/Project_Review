@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .assignment {
+            margin-bottom: 20px;
+        }
+        .assignment label {
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div th:if="${noAssignment}">
+    <p><span id="noAssignment" th:text="${noAssignment}"></span></p>
+</div>
+<div th:if="${assignment}">
+    <form name="f" id="assignmentForm" th:action="@{/api/assignments}" method="post">
+        <div class="assignment">
+            <label for="id">ID:</label>
+            <input type="text" id="id" name="id" th:value="${assignment.id}" readonly>
+        </div>
+        <div class="assignment">
+            <label for="github">GitHub URL:</label>
+            <input type="text" id="github" name="githubUrl" th:value="${assignment.githubUrl}">
+        </div>
+        <div class="assignment">
+            <label for="code">Code Review URL:</label>
+            <input type="text" id="code" name="reviewVideoUrl" th:value="${assignment.reviewVideoUrl}">
+        </div>
+        <div class="assignment">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" th:value="${assignment.user.getUsername()}" readonly>
+        </div>
+        <div class="assignment">
+            <label for="reviewer">Reviewer Name:</label>
+            <input type="text" id="reviewer" name="reviewerName" th:value="${assignment.codeReviewer.getUsername()}" readonly>
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+<script>
+    const username = localStorage.getItem('username');
+    console.log('Username:', username);
+
+<!--    document.addEventListener("DOMContentLoaded", function() {-->
+        //hidden username field for submission
+        var usernameValue = username;
+
+        var usernameInput = document.getElementById("username");
+
+        usernameInput.value = usernameValue;
+
+        //usernameInput.disabled = true;
+
+        //shown username field to see the username being used
+        var usernameShown = document.getElementById("usernameShown");
+
+        usernameShown.value = usernameValue;
+
+        usernameShown.disabled = true;
+</script>
+</body>
+</html>

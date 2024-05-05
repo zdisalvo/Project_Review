@@ -97,6 +97,25 @@
         <div class="section">
             <h2 class="section-header">Assignments that need rework</h2>
             <div id="rework-assignments">
+                <div th:if="${rework}">
+                    <table>
+                        <tr>
+                            <th>Branch</th>
+                            <th>Assignment #</th>
+                            <th>Code Review URL</th>
+                            <th>Github URL</th>
+                        </tr>
+                        <th:block th:each="assignment : ${rework}">
+                            <tr>
+                                <td th:text="${assignment.branch}"></td>
+                                <td th:text="${assignment.id}"></td>
+                                <td th:text="${assignment.reviewVideoUrl}"></td>
+                                <td th:text="${assignment.githubUrl}"></td>
+                            </tr>
+                        </th:block>
+                        </tr>
+                    </table>
+                </div>
                 <!-- Assignments that need rework will be dynamically added here -->
             </div>
         </div>

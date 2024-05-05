@@ -11,4 +11,6 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 
     public Optional<List<Assignment>> findAssignmentsByUserAndStatus(Optional<User> user, String status);
 
+    public Optional<Assignment> findAssignmentById(long id);
+
 }
