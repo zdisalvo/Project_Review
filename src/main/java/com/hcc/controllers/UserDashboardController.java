@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,6 +56,31 @@ public class UserDashboardController {
         model.addAttribute("review", reviewAssignments);
 
         return "mydashboard";
+    }
+
+        @RequestMapping("/api/assignments/{id}")
+    public String getAssignmentById(Model model, @PathVariable("id") String idString) {
+        // Your logic to fetch assignment by ID
+        Long id = Long.parseLong(idString);
+        Optional<Assignment> assignmentOptional = assignmentRepository.findAssignmentById(id);
+
+        if(assignmentOptional.isEmpty()) {
+            model.addAttribute("noAssignment", "No Assignment exists with id " + idString);
+            return "assignmentDisplay";
+        }
+
+        Assignment assignment = assignmentOptional.get();
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if(assignment.getUser().equals(user.get()))
+            return "assignmentEdit.html";
+        else
+            return "assignmentDisplay";
+
     }
 
     @RequestMapping(value = "/api/assignments", method = RequestMethod.POST)
