@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        .container {
+            display: flex;
+        }
+        .left-pane {
+            width: 180px;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+        .right-pane {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .submit-form {
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section-header {
+            font-weight: bold;
+        }
+        .assignment {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .assignment.completed {
+            background-color: lightgreen;
+        }
+        .assignment.rework {
+            background-color: lightcoral;
+        }
+        .assignment.review {
+            background-color: lightblue;
+        }
+        table {
+            border-collapse: collapse;
+            border: 1px solid #ccc;
+        }
+
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+<div th:if="${username}">
+    <p>Welcome <span th:text="${username}"></span></p>
+</div>
+
+<div class="container">
+    <div class="left-pane">
+        <h2>Submit Assignment</h2>
+        <form name="f" id="assignmentForm" th:action="@{/api/assignments}" method="post">
+            <fieldset>
+                <legend>Submit Assignment</legend>
+                <label for="username">Username:</label><br>
+                <input type="text" id="usernameShown" name="usernameShown"><br>
+                <input type="hidden" id="username" name="username"><br>
+                <p></p>
+                <label>Branch:</label><br>
+                <input type="radio" id="frontend" name="branch" value="Frontend">
+                <label for="frontend">Frontend</label><br>
+                <input type="radio" id="backend" name="branch" value="Backend">
+                <label for="backend">Backend</label><br>
+                <input type="radio" id="dataScience" name="branch" value="Data_Science">
+                <label for="dataScience">Data Science</label><br>
+                <p></p>
+                <label for="githubUrl">Github URL:</label><br>
+                <input type="text" id="githubUrl" name="githubUrl" required><br>
+                <p></p>
+                <label for="reviewVideoUrl">Review Video URL:</label><br>
+                <input type="text" id="reviewVideoUrl" name="reviewVideoUrl" required></input><br>
+
+                <p></p>
+                <div class = "form-actions">
+                    <button type="submit" class="btn">Submit</button>
+                </div>
+            </fieldset>
+        </form>
+
+    </div>
+
+    <div class="right-pane">
+        <div class="section">
+            <h2 class="section-header">Assignments that need rework</h2>
+            <div id="rework-assignments">
+                <!-- Assignments that need rework will be dynamically added here -->
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">Completed Assignments</h2>
+            <div id="completed-assignments">
+                <div th:if="${completed}">
+                    <table>
+                        <tr>
+                            <th>Branch</th>
+                            <th>Assignment #</th>
+                            <th>Code Review URL</th>
+                            <th>Github URL</th>
+                        </tr>
+                        <th:block th:each="assignment : ${completed}">
+                            <tr>
+                                <td th:text="${assignment.branch}"></td>
+                                <td th:text="${assignment.id}"></td>
+                                <td th:text="${assignment.reviewVideoUrl}"></td>
+                                <td th:text="${assignment.githubUrl}"></td>
+                            </tr>
+                        </th:block>
+                        </tr>
+                    </table>
+                </div>
+                <!-- Completed assignments will be dynamically added here -->
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">In Review</h2>
+            <div id="in-review-assignments">
+                <div th:if="${review}">
+                    <table>
+                        <tr>
+                            <th>Branch</th>
+                            <th>Assignment #</th>
+                            <th>Code Review URL</th>
+                            <th>Github URL</th>
+                        </tr>
+                        <th:block th:each="assignment : ${review}">
+                            <tr>
+                                <td th:text="${assignment.branch}"></td>
+                                <td th:text="${assignment.id}"></td>
+                                <td th:text="${assignment.reviewVideoUrl}"></td>
+                                <td th:text="${assignment.githubUrl}"></td>
+                            </tr>
+                        </th:block>
+                        </tr>
+                    </table>
+                </div>
+                <!-- Assignments in review will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const username = localStorage.getItem('username');
+    console.log('Username:', username);
+
+<!--    document.addEventListener("DOMContentLoaded", function() {-->
+        //hidden username field for submission
+        var usernameValue = username;
+
+        var usernameInput = document.getElementById("username");
+
+        usernameInput.value = usernameValue;
+
+        //usernameInput.disabled = true;
+
+        //shown username field to see the username being used
+        var usernameShown = document.getElementById("usernameShown");
+
+        usernameShown.value = usernameValue;
+
+        usernameShown.disabled = true;
+
+    // Sample data (replace with actual assignments data)
+<!--    const assignments = [-->
+<!--        { name: "Assignment 1", status: "rework" },-->
+<!--        { name: "Assignment 2", status: "completed" },-->
+<!--        { name: "Assignment 3", status: "REVIEW" }-->
+<!--        // Add more assignments as needed-->
+<!--    ];-->
+
+    // Function to create assignment elements
+    function createAssignmentElement(assignment) {
+        const assignmentElement = document.createElement('div');
+        assignmentElement.classList.add('assignment', assignment.status);
+        assignmentElement.textContent = assignment.name;
+        return assignmentElement;
+    }
+
+    // Populate assignments in their respective sections
+    assignments.forEach(assignment => {
+        const sectionId = `${assignment.status}-assignments`;
+        const section = document.getElementById(sectionId);
+        if (section) {
+            const assignmentElement = createAssignmentElement(assignment);
+            section.appendChild(assignmentElement);
+        }
+    });
+
+<!--    // Handle form submission-->
+<!--    document.getElementById('assignmentForm').addEventListener('submit', function(event) {-->
+<!--        event.preventDefault(); // Prevent default form submission-->
+<!--        // Get form data-->
+<!--        const assignmentName = document.getElementById('assignmentName').value;-->
+<!--        const assignmentDescription = document.getElementById('assignmentDescription').value;-->
+<!--        const fileUpload = document.getElementById('fileUpload').files[0]; // Assuming single file upload-->
+<!--        // Process form data (send to server, etc.)-->
+<!--        console.log('Assignment Name:', assignmentName);-->
+<!--        console.log('Description:', assignmentDescription);-->
+<!--        console.log('Uploaded File:', fileUpload);-->
+<!--        // Clear form fields-->
+<!--        document.getElementById('assignmentName').value = '';-->
+<!--        document.getElementById('assignmentDescription').value = '';-->
+<!--        document.getElementById('fileUpload').value = '';-->
+<!--    });-->
+</script>
+
+</body>
+</html>
+
+

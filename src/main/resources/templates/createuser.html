@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* Set the height of the viewport */
+            margin: 0; /* Remove default margin */
+        }
+        button {
+            width: 150px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+<h2>User Registration Form</h2>
+<div>
+    <form name="f" th:action="@{/createuser}" method="post">
+        <fieldset>
+            <legend>Create User</legend>
+            <div th:if="${error}" class="alert alert-error" style="color: red;">
+                User already exists with this username
+            </div>
+            <p></p>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+
+            <label>Select Authorities:</label><br>
+            <input type="checkbox" id="user" name="authorities" value="USER">
+            <label for="user">User</label><br>
+
+            <input type="checkbox" id="reviewer" name="authorities" value="REVIEWER">
+            <label for="reviewer">Reviewer</label><br>
+
+            <input type="checkbox" id="admin" name="authorities" value="ADMIN">
+            <label for="admin">Admin</label><br>
+
+            <div class = "form-actions">
+                <br>
+                <button type="submit" class="btn">Submit</button>
+            </div>
+        </fieldset>
+
+    </form>
+</div>
+</body>
+</html>

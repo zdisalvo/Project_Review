@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* Set the height of the viewport */
+            margin: 0; /* Remove default margin */
+        }
+        button {
+            margin: 10px;
+        }
+    </style>
+
+</head>
+<body>
+<h1>The Assignment Review App</h1>
+<div th:if="${token}" id="tokenDiv"></div>
+<div id="token" style="display: none;" th:text="${token}"></div>
+<div th:if="${username}" id="usernameDiv">
+    <p>Welcome <span id="username" th:text="${username}"></span></p>
+</div>
+<div id="welcomeMessage"></div>
+<div th:if="${error}">
+    <p>Please login again</p>
+</div>
+<p>Create an Account or Login</p>
+<button onclick="redirectToCreateAccount()">Create Account</button>
+<button onclick="redirectToLogin()">Login</button>
+
+<script>
+        function redirectToCreateAccount() {
+            window.location.href = "/createuser";
+        }
+
+        function redirectToLogin() {
+            window.location.href = "/api/auth/login";
+        }
+
+<!--        var tokenElement = document.getElementById('token');-->
+<!--        if (tokenElement) {-->
+<!--            var token = tokenElement.textContent;-->
+
+<!--            // Store the token in local storage-->
+<!--            localStorage.setItem('token', token);-->
+<!--        } else {-->
+<!--            console.error('Token element not found');-->
+<!--        }-->
+
+        var usernameElement = document.getElementById('username');
+        var username;
+        if (usernameElement) {
+            usernameVal = usernameElement.textContent;
+            if (usernameVal) {
+                localStorage.setItem('username', usernameVal);
+            }
+        } else {
+            username = localStorage.getItem('username');
+            var welcomeMessage = document.getElementById('welcomeMessage');
+            welcomeMessage.textContent = 'Welcome, ' + username + '!';
+        }
+
+<!--               var username = localStorage.getItem('username');-->
+<!--               var welcomeMessage = document.getElementById('welcomeMessage');-->
+<!--                welcomeMessage.textContent = 'Welcome, ' + username + '!';-->
+
+<!--        var token = document.getElementById('token').textContent;-->
+<!--        var username = document.getElementById('username').textContent;-->
+
+<!--        if (token) {-->
+<!--            localStorage.setItem('token', token);-->
+<!--        } else {-->
+<!--            token = localStorage.getItem('token');-->
+<!--        }-->
+
+<!--        if (username) {-->
+<!--            localStorage.setItem('username', username);-->
+<!--        } else {-->
+<!--            username = localStorage.getItem('username');-->
+<!--        }-->
+
+        console.log('Username:', username);
+
+<!--        var name = localStorage.getItem('username');-->
+<!--        var tok = localStorage.getItem('token');-->
+<!--        console.log('Username: ', name);-->
+<!--        console.log('Token: ', tok);-->
+    </script>
+</body>
+</html>
