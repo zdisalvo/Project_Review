@@ -109,10 +109,64 @@ public class UserDashboardController {
 
         User user = userRepository.findByUsername(username).orElseThrow();
 
-        Assignment assignment = new Assignment("REVIEW", branch, reviewVideoUrl, githubUrl, user);
-        assignmentRepository.save(assignment);
+//        if (id != null) {
+//            long idL = Long.parseLong(id);
+//
+//            Optional<Assignment> assignmentOptional = assignmentRepository.findAssignmentById(idL);
+//
+////            if(assignmentOptional.isEmpty())
+////                throw new ResourceNotFoundException("could not find assignment");
+//
+//            if(assignmentOptional.isPresent()) {
+//                Assignment assignment = assignmentOptional.get();
+//                assignment.setGithubUrl(githubUrl);
+//                assignment.setReviewVideoUrl(reviewVideoUrl);
+//
+//                assignmentRepository.save(assignment);
+//            }
+//        } else {
+
+            Assignment assignment = new Assignment("REVIEW", branch, reviewVideoUrl, githubUrl, user);
+            assignmentRepository.save(assignment);
+
 
         return showDashboard(model);
     }
+
+////    @RequestMapping(value = "/api/editassignment", method = RequestMethod.GET)
+////    public String showAssignments(Model model) {
+////        return "mydashboard";
+////    }
+//
+//    @RequestMapping(value = "/api/editassignment", method = RequestMethod.PUT)
+//    public String editAssignment(Model model, @RequestParam String id, @RequestParam String status,
+//                                 @RequestParam String branch, @RequestParam String githubUrl,
+//                                 @RequestParam String reviewVideoUrl, @RequestParam String username) {
+//
+//        User user = userRepository.findByUsername(username).orElseThrow();
+//
+//        long idL = Long.parseLong(id);
+//
+//        Optional<Assignment> assignmentOptional = assignmentRepository.findAssignmentById(idL);
+//
+//
+//
+//        if(assignmentOptional.isPresent()) {
+//
+//            Assignment assignment = assignmentOptional.get();
+//            assignment.setGithubUrl(githubUrl);
+//            assignment.setReviewVideoUrl(reviewVideoUrl);
+//
+////            Assignment assignment2 = new Assignment("REVIEW", branch, reviewVideoUrl, githubUrl, user);
+////            assignmentRepository.save(assignment2);
+//
+//            assignmentRepository.save(assignment);
+//        }
+//        //throw new ResourceNotFoundException("test");
+//
+//        return showDashboard(model);
+//    }
+
+
 
 }

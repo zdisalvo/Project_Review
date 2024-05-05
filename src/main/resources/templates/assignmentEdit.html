@@ -59,10 +59,20 @@
     <p><span id="noAssignment" th:text="${noAssignment}"></span></p>
 </div>
 <div th:if="${assignment}">
-    <form name="f" id="assignmentForm" th:action="@{/api/assignments}" method="post">
+    <form name="f" id="assignmentForm" th:action="@{/api/editassignment}" method="post">
+<!--        <input type="hidden" name="_method" value="PUT">-->
+    <fieldset>
         <div class="assignment">
             <label for="id">ID:</label>
             <input type="text" id="id" name="id" th:value="${assignment.id}" readonly>
+        </div>
+        <div class="assignment">
+            <label for="status">Status:</label>
+            <input type="text" id="status" name="status" th:value="${assignment.status}" readonly>
+        </div>
+        <div class="assignment">
+            <label for="branch">Branch:</label>
+            <input type="text" id="branch" name="branch" th:value="${assignment.branch}" readonly>
         </div>
         <div class="assignment">
             <label for="github">GitHub URL:</label>
@@ -83,29 +93,31 @@
             </div>
         </div>
         <input type="submit" value="Submit">
+    </fieldset>
     </form>
+
 </div>
 </div>
 <script>
-    const username = localStorage.getItem('username');
-    console.log('Username:', username);
+<!--    const username = localStorage.getItem('username');-->
+<!--    console.log('Username:', username);-->
 
-<!--    document.addEventListener("DOMContentLoaded", function() {-->
-        //hidden username field for submission
-        var usernameValue = username;
+<!--&lt;!&ndash;    document.addEventListener("DOMContentLoaded", function() {&ndash;&gt;-->
+<!--        //hidden username field for submission-->
+<!--        var usernameValue = username;-->
 
-        var usernameInput = document.getElementById("username");
+<!--        var usernameInput = document.getElementById("username");-->
 
-        usernameInput.value = usernameValue;
+<!--        usernameInput.value = usernameValue;-->
 
-        //usernameInput.disabled = true;
+<!--        //usernameInput.disabled = true;-->
 
-        //shown username field to see the username being used
-        var usernameShown = document.getElementById("usernameShown");
+<!--        //shown username field to see the username being used-->
+<!--        var usernameShown = document.getElementById("usernameShown");-->
 
-        usernameShown.value = usernameValue;
+<!--        usernameShown.value = usernameValue;-->
 
-        usernameShown.disabled = true;
+<!--        usernameShown.disabled = true;-->
 </script>
 </body>
 </html>
