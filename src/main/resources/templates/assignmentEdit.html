@@ -5,8 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assignment Details</title>
     <style>
-        body {
+         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 60%;
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
         .assignment {
             margin-bottom: 20px;
@@ -26,6 +44,8 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            display: block;
+            margin: 0 auto;
         }
         input[type="submit"]:hover {
             background-color: #45a049;
@@ -33,6 +53,8 @@
     </style>
 </head>
 <body>
+<div class="container">
+<div class="title">Assignment Details</div>
 <div th:if="${noAssignment}">
     <p><span id="noAssignment" th:text="${noAssignment}"></span></p>
 </div>
@@ -54,12 +76,15 @@
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" th:value="${assignment.user.getUsername()}" readonly>
         </div>
-        <div class="assignment">
-            <label for="reviewer">Reviewer Name:</label>
-            <input type="text" id="reviewer" name="reviewerName" th:value="${assignment.codeReviewer.getUsername()}" readonly>
+        <div th:if="${codeReviewer}">
+            <div class="assignment">
+                <label for="reviewer">Reviewer Name:</label>
+                <span id="reviewer" th:text="${assignment.codeReviewer.getUsername()}"></span>
+            </div>
         </div>
         <input type="submit" value="Submit">
     </form>
+</div>
 </div>
 <script>
     const username = localStorage.getItem('username');

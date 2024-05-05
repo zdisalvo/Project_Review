@@ -39,6 +39,9 @@ public class UserDashboardController {
         String username = authentication.getName();
         Optional<User> user = userRepository.findByUsername(username);
 
+        if (user.isPresent())
+            model.addAttribute("username", user.get().getUsername());
+
         //String username = jwtUtil.getUsernameFromToken(jwtUtil.getToken());
 
         //find Rework Assignments
@@ -53,7 +56,8 @@ public class UserDashboardController {
 
         //find In Review Assignments
         List<Assignment> reviewAssignments = assignmentRepository.findAssignmentsByUserAndStatus(user, "REVIEW").orElse(null);
-        model.addAttribute("review", reviewAssignments);
+        if (!reviewAssignments.isEmpty())
+            model.addAttribute("review", reviewAssignments);
 
         return "mydashboard";
     }
@@ -64,8 +68,10 @@ public class UserDashboardController {
         Long id = Long.parseLong(idString);
         Optional<Assignment> assignmentOptional = assignmentRepository.findAssignmentById(id);
 
+        String noAssignmentString = "No Assignment exists with id " + idString;
+
         if(assignmentOptional.isEmpty()) {
-            model.addAttribute("noAssignment", "No Assignment exists with id " + idString);
+            model.addAttribute("noAssignment", noAssignmentString);
             return "assignmentDisplay";
         }
 
@@ -76,10 +82,24 @@ public class UserDashboardController {
         String username = authentication.getName();
         Optional<User> user = userRepository.findByUsername(username);
 
-        if(assignment.getUser().equals(user.get()))
-            return "assignmentEdit.html";
-        else
+        String usernameVal = assignment.getUser().getUsername();
+
+
+
+        if(user.isPresent() && assignment.getUser().getUsername().equals(user.get().getUsername())) {
+            model.addAttribute("noAssignment", "This assignment may be edited and resubmitted");
+            model.addAttribute("assignment", assignment);
+            return "assignmentEdit";
+        }
+
+        else {
+            model.addAttribute("noAssignment", "This assignment belongs to " + usernameVal);
+            model.addAttribute("assignment", assignment);
+            if (assignment.getCodeReviewer() != null)
+                model.addAttribute("codeReviewer", assignment);
             return "assignmentDisplay";
+        }
+
 
     }
 

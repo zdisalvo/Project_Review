@@ -123,6 +123,9 @@ public class LoginController {
     @Autowired
     TokenChecker tokenChecker;
 
+    @Autowired
+    HomeController homeController;
+
     @RequestMapping(value = "/api/auth/login", method=RequestMethod.GET)
     public String showLoginPage(ModelMap map) {
         // Return the path to the login page
@@ -152,7 +155,7 @@ public class LoginController {
             model = tokenChecker.addTokenAttributes(model, token);
 //            model.addAttribute("token", token);
 //            model.addAttribute("username", username);
-            return "index";
+            return "redirect:/";
             //return ResponseEntity.ok().build();
         } else {
             // Return error response if user is not valid

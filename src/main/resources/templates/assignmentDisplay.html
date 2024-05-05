@@ -7,6 +7,24 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 60%;
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
         .assignment {
             margin-bottom: 20px;
@@ -17,7 +35,9 @@
     </style>
 </head>
 <body>
-<div th:if="${noAssignment"}>
+<div class="container">
+    <div class="title">Assignment Details</div>
+<div th:if="${noAssignment}">
     <p><span id="noAssignment" th:text="${noAssignment}"></span></p>
 </div>
 <div th:if="${assignment}">
@@ -37,10 +57,13 @@
         <label for="username">Username:</label>
         <span id="username" th:text="${assignment.user.getUsername()}"></span>
     </div>
+    <div th:if="${codeReviewer}">
     <div class="assignment">
         <label for="reviewer">Reviewer Name:</label>
         <span id="reviewer" th:text="${assignment.codeReviewer.getUsername()}"></span>
     </div>
+    </div>
+</div>
 </div>
 <script>
     const username = localStorage.getItem('username');
