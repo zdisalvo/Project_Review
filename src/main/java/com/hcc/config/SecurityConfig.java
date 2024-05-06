@@ -158,6 +158,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
+                .logoutUrl("/logout") // Logout URL
+                .logoutSuccessUrl("/api/auth/login?logout") // Redirect to login page after logout
                 .permitAll();
 
                 http.addFilterBefore(jwtFilt, UsernamePasswordAuthenticationFilter.class);
