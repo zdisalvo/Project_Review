@@ -46,7 +46,7 @@ public class UserDashboardController {
         //String username = jwtUtil.getUsernameFromToken(jwtUtil.getToken());
 
         //find Rework Assignments
-        List<Assignment> reworkAssignments = assignmentRepository.findAssignmentsByUserAndStatus(user, "REWORK").orElse(null);
+        List<Assignment> reworkAssignments = assignmentRepository.findAssignmentsByUserAndStatus(user, "NEEDS_UPDATE").orElse(null);
         if (!reworkAssignments.isEmpty())
             model.addAttribute("rework", reworkAssignments);
 
@@ -56,7 +56,7 @@ public class UserDashboardController {
             model.addAttribute("completed", completedAssignments);
 
         //find In Review Assignments
-        List<Assignment> reviewAssignments = assignmentRepository.findAssignmentsByUserAndStatus(user, "REVIEW").orElse(null);
+        List<Assignment> reviewAssignments = assignmentRepository.findAssignmentsByUserAndStatus(user, "IN_REVIEW").orElse(null);
         if (!reviewAssignments.isEmpty())
             model.addAttribute("review", reviewAssignments);
 
@@ -110,22 +110,6 @@ public class UserDashboardController {
 
         User user = userRepository.findByUsername(username).orElseThrow();
 
-//        if (id != null) {
-//            long idL = Long.parseLong(id);
-//
-//            Optional<Assignment> assignmentOptional = assignmentRepository.findAssignmentById(idL);
-//
-////            if(assignmentOptional.isEmpty())
-////                throw new ResourceNotFoundException("could not find assignment");
-//
-//            if(assignmentOptional.isPresent()) {
-//                Assignment assignment = assignmentOptional.get();
-//                assignment.setGithubUrl(githubUrl);
-//                assignment.setReviewVideoUrl(reviewVideoUrl);
-//
-//                assignmentRepository.save(assignment);
-//            }
-//        } else {
 
             Assignment assignment = new Assignment("IN_REVIEW", branch, reviewVideoUrl, githubUrl, user);
             assignmentRepository.save(assignment);
@@ -133,41 +117,6 @@ public class UserDashboardController {
 
         return showDashboard(model);
     }
-
-////    @RequestMapping(value = "/api/editassignment", method = RequestMethod.GET)
-////    public String showAssignments(Model model) {
-////        return "mydashboard";
-////    }
-//
-//    @RequestMapping(value = "/api/editassignment", method = RequestMethod.PUT)
-//    public String editAssignment(Model model, @RequestParam String id, @RequestParam String status,
-//                                 @RequestParam String branch, @RequestParam String githubUrl,
-//                                 @RequestParam String reviewVideoUrl, @RequestParam String username) {
-//
-//        User user = userRepository.findByUsername(username).orElseThrow();
-//
-//        long idL = Long.parseLong(id);
-//
-//        Optional<Assignment> assignmentOptional = assignmentRepository.findAssignmentById(idL);
-//
-//
-//
-//        if(assignmentOptional.isPresent()) {
-//
-//            Assignment assignment = assignmentOptional.get();
-//            assignment.setGithubUrl(githubUrl);
-//            assignment.setReviewVideoUrl(reviewVideoUrl);
-//
-////            Assignment assignment2 = new Assignment("REVIEW", branch, reviewVideoUrl, githubUrl, user);
-////            assignmentRepository.save(assignment2);
-//
-//            assignmentRepository.save(assignment);
-//        }
-//        //throw new ResourceNotFoundException("test");
-//
-//        return showDashboard(model);
-//    }
-
 
 
 }
