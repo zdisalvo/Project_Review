@@ -2,6 +2,7 @@ package com.hcc.controllers;
 
 import com.hcc.entities.Assignment;
 import com.hcc.entities.User;
+import com.hcc.enums.AssignmentStatusEnum;
 import com.hcc.exceptions.ResourceNotFoundException;
 import com.hcc.repositories.AssignmentRepository;
 import com.hcc.repositories.UserRepository;
@@ -126,7 +127,7 @@ public class UserDashboardController {
 //            }
 //        } else {
 
-            Assignment assignment = new Assignment("REVIEW", branch, reviewVideoUrl, githubUrl, user);
+            Assignment assignment = new Assignment("IN_REVIEW", branch, reviewVideoUrl, githubUrl, user);
             assignmentRepository.save(assignment);
 
 

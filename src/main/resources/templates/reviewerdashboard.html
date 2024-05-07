@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviewer Dashboard</title>
+    <style>
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .container {
+            display: flex;
+        }
+        .left-pane {
+            width: 180px;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+        .right-pane {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .submit-form {
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section-header {
+            font-weight: bold;
+        }
+        .assignment {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .assignment.completed {
+            background-color: lightgreen;
+        }
+        .assignment.rework {
+            background-color: lightcoral;
+        }
+        .assignment.review {
+            background-color: lightblue;
+        }
+        table {
+            border-collapse: collapse;
+            border: 1px solid #ccc;
+        }
+
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="/">Home</a>
+    <a href="/api/assignments">Assignments</a>
+    <a href="/logout">Logout</a>
+
+</div>
+
+<div style="padding:16px"></div>
+
+<div th:if="${username}">
+    <p>Welcome <span id="authUsername" th:text="${username}"></span></p>
+</div>
+
+<div class="container">
+
+        <div class="section">
+            <h2 class="section-header">In Review</h2>
+            <div id="in-review-assignments">
+                <div th:if="${review}">
+                    <table>
+                        <tr>
+                            <th>User</th>
+                            <th>Branch</th>
+                            <th>Assignment #</th>
+                            <th>Code Review URL</th>
+                            <th>Github URL</th>
+                        </tr>
+                        <th:block th:each="assignment : ${review}">
+                            <tr>
+                                <td th:text="${assignment.user.getUsername()}"></td>
+                                <td th:text="${assignment.branch}"></td>
+                                <td>
+                                    <!-- Create a link with dynamic assignment ID -->
+                                    <a th:href="@{/api/assignments/{id}(id=${assignment.id})}" th:text="'Assignment #' + ${assignment.id}"></a>
+                                </td>
+                                <td th:text="${assignment.reviewVideoUrl}"></td>
+                                <td th:text="${assignment.githubUrl}"></td>
+                            </tr>
+                        </th:block>
+                        </tr>
+                    </table>
+                </div>
+                <!-- Assignments in review will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+
+<!--    document.addEventListener("DOMContentLoaded", function() {-->
+        var usernameElement = document.getElementById('authUsername');
+        var username = usernameElement.textContent;
+        console.log('Username:', username);
+
+        //hidden username field for submission
+        var usernameValue = username;
+
+        var usernameInput = document.getElementById("username");
+
+        usernameInput.value = usernameValue;
+
+        //usernameInput.disabled = true;
+
+        //shown username field to see the username being used
+        var usernameShown = document.getElementById("usernameShown");
+
+        usernameShown.value = usernameValue;
+
+        usernameShown.disabled = true;
+
+    // Sample data (replace with actual assignments data)
+<!--    const assignments = [-->
+<!--        { name: "Assignment 1", status: "rework" },-->
+<!--        { name: "Assignment 2", status: "completed" },-->
+<!--        { name: "Assignment 3", status: "REVIEW" }-->
+<!--        // Add more assignments as needed-->
+<!--    ];-->
+
+    // Function to create assignment elements
+    function createAssignmentElement(assignment) {
+        const assignmentElement = document.createElement('div');
+        assignmentElement.classList.add('assignment', assignment.status);
+        assignmentElement.textContent = assignment.name;
+        return assignmentElement;
+    }
+
+    // Populate assignments in their respective sections
+    assignments.forEach(assignment => {
+        const sectionId = `${assignment.status}-assignments`;
+        const section = document.getElementById(sectionId);
+        if (section) {
+            const assignmentElement = createAssignmentElement(assignment);
+            section.appendChild(assignmentElement);
+        }
+    });
+
+<!--    // Handle form submission-->
+<!--    document.getElementById('assignmentForm').addEventListener('submit', function(event) {-->
+<!--        event.preventDefault(); // Prevent default form submission-->
+<!--        // Get form data-->
+<!--        const assignmentName = document.getElementById('assignmentName').value;-->
+<!--        const assignmentDescription = document.getElementById('assignmentDescription').value;-->
+<!--        const fileUpload = document.getElementById('fileUpload').files[0]; // Assuming single file upload-->
+<!--        // Process form data (send to server, etc.)-->
+<!--        console.log('Assignment Name:', assignmentName);-->
+<!--        console.log('Description:', assignmentDescription);-->
+<!--        console.log('Uploaded File:', fileUpload);-->
+<!--        // Clear form fields-->
+<!--        document.getElementById('assignmentName').value = '';-->
+<!--        document.getElementById('assignmentDescription').value = '';-->
+<!--        document.getElementById('fileUpload').value = '';-->
+<!--    });-->
+</script>
+
+</body>
+</html>
+
+

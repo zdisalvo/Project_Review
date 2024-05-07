@@ -25,7 +25,7 @@ public class User implements UserDetails {
     private String password;
 
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Authority> authorities;
 
     public User(Long id, Date cohortStartDate, String username, String password) {
@@ -101,7 +101,16 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new Authority("USER"));
+        roles.add(new Authority("ROLE_LEARNER"));
+        for (Authority auth : authorities) {
+            if (auth.authority.equals("ROLE_REVIEWER"))
+                roles.add(new Authority("ROLE_REVIEWER"));
+            if (auth.authority.equals("ROLE_ADMIN"))
+                roles.add(new Authority("ROLE_ADMIN"));
+        }
+//        authorities.stream()
+//                .forEach(authority -> roles.add(new Authority(authority.authority)));
+
         return roles;
     }
 

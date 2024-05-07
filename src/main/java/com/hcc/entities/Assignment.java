@@ -1,5 +1,7 @@
 package com.hcc.entities;
 
+import com.hcc.enums.AssignmentStatusEnum;
+
 import javax.persistence.*;
 
 @Entity

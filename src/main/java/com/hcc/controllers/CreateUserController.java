@@ -46,6 +46,7 @@ public class CreateUserController {
             return "createuser";
         }
 
+
         User user = new User(new Date(), username, password);
 
         List<Authority> authorityList = new ArrayList<>();

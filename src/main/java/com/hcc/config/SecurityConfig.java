@@ -72,6 +72,8 @@ package com.hcc.config;
         import com.hcc.utils.CustomPasswordEncoder;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.context.annotation.Bean;
+        import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+        import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
         import org.springframework.security.authentication.AuthenticationManager;
         import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
         import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -105,13 +107,25 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 
         @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user = User.builder()
-                .username("user")
+        UserDetails learner = User.builder()
+                .username("learner")
                 .password(customPasswordEncoder.getPasswordEncoder().encode("password"))
-                .roles("USER")
+                .roles("LEARNER")
                 .build();
 
-        return new InMemoryUserDetailsManager(user);
+        UserDetails reviewer = User.builder()
+                .username("reviewer")
+                .password(customPasswordEncoder.getPasswordEncoder().encode("password"))
+                .roles("REVIEWER") // Set reviewer role
+                .build();
+
+        UserDetails admin = User.builder()
+                .username("admin")
+                .password(customPasswordEncoder.getPasswordEncoder().encode("password"))
+                .roles("ADMIN") // Set reviewer role
+                .build();
+
+        return new InMemoryUserDetailsManager(learner, reviewer, admin);
     }
 
     @Override
@@ -146,6 +160,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 http
 
                 .authorizeRequests()
+                        .antMatchers("/api/assignments/review").hasRole("REVIEWER")
+                        .antMatchers("/api/assignments/review/{\\d+}").hasRole("REVIEWER")
                 .antMatchers("/", "/home").permitAll()
                 .antMatchers("/createuser").permitAll()
                 .antMatchers("/api/assignments").permitAll()
@@ -163,6 +179,13 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .permitAll();
 
                 http.addFilterBefore(jwtFilt, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_REVIEWER > ROLE_LEARNER");
+        return roleHierarchy;
     }
 
 }
