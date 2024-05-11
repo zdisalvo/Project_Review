@@ -1,9 +1,11 @@
 package com.hcc.controllers;// HomeController.java
+import com.hcc.entities.Authority;
 import com.hcc.entities.User;
 import com.hcc.repositories.UserRepository;
 import com.hcc.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,9 +32,22 @@ public class HomeController {
         String username = authentication.getName();
         Optional<User> user = userRepository.findByUsername(username);
 
-        if (user.isPresent())
-            model.addAttribute("username", user.get().getUsername());
+        if (user.isPresent()) {
+
+            if (checkIfRoleReviewer(user.get()))
+                model.addAttribute("codereviewer", user.get().getUsername());
+            else
+                model.addAttribute("username", user.get().getUsername());
+        }
 
         return "index";
+    }
+
+    public boolean checkIfRoleReviewer(User user) {
+        for (GrantedAuthority authority : user.getAuthorities()) {
+            if (authority.getAuthority().equals("ROLE_REVIEWER"))
+                return true;
+        }
+        return false;
     }
 }

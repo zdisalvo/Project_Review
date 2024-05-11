@@ -41,11 +41,20 @@
 
 </head>
 <body>
+<div th:if="${codereviewer}">
 <div class="navbar">
     <a href="/">Home</a>
     <a href="/api/assignments">Assignments</a>
+    <a href="/api/assignments/review"> Review Assignments</a>
     <a href="/logout">Logout</a>
-
+</div>
+</div>
+<div th:if="${username}">
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/api/assignments">Assignments</a>
+        <a href="/logout">Logout</a>
+    </div>
 </div>
 
 <div style="padding:16px"></div>
@@ -55,6 +64,9 @@
 <div id="token" style="display: none;" th:text="${token}"></div>
 <div th:if="${username}" id="usernameDiv">
     <p>Welcome <span id="username" th:text="${username}"></span></p>
+</div>
+<div th:if="${codereviewer}" id="codeReviewerDiv">
+    <p>Welcome <span id="codereviewer" th:text="${codereviewer}"></span></p>
 </div>
 <div id="welcomeMessage"></div>
 <div th:if="${error}">

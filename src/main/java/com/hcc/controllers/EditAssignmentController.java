@@ -56,7 +56,7 @@ public class EditAssignmentController {
 
 //            Assignment assignment2 = new Assignment("REVIEW", branch, reviewVideoUrl, githubUrl, user);
 //            assignmentRepository.save(assignment2);
-
+            assignment.setStatus("RESUBMITTED");
             assignmentRepository.save(assignment);
         }
         //throw new ResourceNotFoundException("test");

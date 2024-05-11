@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -48,9 +49,43 @@ public class ReviewDashboardController {
 //        status.add("IN_REVIEW");
 //        status.add("RESUBMITTED");
         List<Assignment> reviewAssignments = assignmentRepository.findAssignmentsByStatus("IN_REVIEW").orElse(null);
+        List<Assignment> resubmittedAssignments = assignmentRepository.findAssignmentsByStatus("RESUBMITTED").orElse(null);
+        reviewAssignments.addAll(resubmittedAssignments);
         if (!reviewAssignments.isEmpty())
             model.addAttribute("review", reviewAssignments);
 
         return "reviewerdashboard";
+    }
+
+    @RequestMapping(value = "api/assignments/review/{id}", method = RequestMethod.GET)
+    public String reviewAssignmentById(Model model, @PathVariable("id") String idString) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Optional<User> user = userRepository.findByUsername(username);
+
+        Long id = Long.parseLong(idString);
+        Optional<Assignment> assignmentOptional = assignmentRepository.findAssignmentById(id);
+        Assignment assignment = new Assignment();
+        if (assignmentOptional.isPresent()) {
+            assignment = assignmentOptional.get();
+            model.addAttribute("assignment", assignment);
+        }
+
+        if (user.isPresent()) {
+            //model.addAttribute("username", user.get().getUsername());
+            model.addAttribute("codeReviewer", user.get().getUsername());
+
+//            if (assignment.getCodeReviewer() != null)
+//                model.addAttribute("codeReviewer");
+//            else if (user.get().getAuthorities().contains("ROLE_REVIEWER")) {
+//                assignment.setCodeReviewer(user.get());
+//                assignmentRepository.save(assignment);
+//                model.addAttribute("codeReviewer");
+//            }
+
+        }
+
+        return "assignmentReview";
     }
 }

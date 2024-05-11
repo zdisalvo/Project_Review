@@ -28,6 +28,9 @@
 
         .container {
             display: flex;
+            justify-content: center; /* Center horizontally */
+            width: 65%; /* Take up 65% of the page width */
+            margin: auto; /* Center horizontally */
         }
         .left-pane {
             width: 180px;
@@ -77,6 +80,7 @@
 </head>
 <body>
 
+<div class="container">
 <div class="navbar">
     <a href="/">Home</a>
     <a href="/api/assignments">Assignments</a>
@@ -86,9 +90,14 @@
 
 <div style="padding:16px"></div>
 
-<div th:if="${username}">
-    <p>Welcome <span id="authUsername" th:text="${username}"></span></p>
+
 </div>
+<div class="container">
+    <div th:if="${username}">
+        <p>Welcome <span id="authUsername" th:text="${username}"></span></p>
+    </div>
+</div>
+<div style="padding:16px"></div>
 
 <div class="container">
 
@@ -101,8 +110,10 @@
                             <th>User</th>
                             <th>Branch</th>
                             <th>Assignment #</th>
+                            <th>Status</th>
                             <th>Code Review URL</th>
                             <th>Github URL</th>
+                            <th>Reviewer Assigned</th>
                         </tr>
                         <th:block th:each="assignment : ${review}">
                             <tr>
@@ -110,10 +121,12 @@
                                 <td th:text="${assignment.branch}"></td>
                                 <td>
                                     <!-- Create a link with dynamic assignment ID -->
-                                    <a th:href="@{/api/assignments/{id}(id=${assignment.id})}" th:text="'Assignment #' + ${assignment.id}"></a>
+                                    <a th:href="@{/api/assignments/review/{id}(id=${assignment.id})}" th:text="'Assignment #' + ${assignment.id}"></a>
                                 </td>
+                                <td th:text="${assignment.status}"></td>
                                 <td th:text="${assignment.reviewVideoUrl}"></td>
                                 <td th:text="${assignment.githubUrl}"></td>
+                                <td th:if="${assignment.codeReviewer}" th:text="${assignment.codeReviewer.getUsername()}"></td>
                             </tr>
                         </th:block>
                         </tr>

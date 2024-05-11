@@ -57,6 +57,8 @@ public class UserDashboardController {
 
         //find In Review Assignments
         List<Assignment> reviewAssignments = assignmentRepository.findAssignmentsByUserAndStatus(user, "IN_REVIEW").orElse(null);
+        List<Assignment> resubmittedAssignments = assignmentRepository.findAssignmentsByUserAndStatus(user, "RESUBMITTED").orElse(null);
+        reviewAssignments.addAll(resubmittedAssignments);
         if (!reviewAssignments.isEmpty())
             model.addAttribute("review", reviewAssignments);
 
@@ -76,8 +78,13 @@ public class UserDashboardController {
             return "assignmentDisplay";
         }
 
-        Assignment assignment = assignmentOptional.get();
+        Assignment assignment = new Assignment();
 
+        if (assignmentOptional.isPresent())
+            assignment = assignmentOptional.get();
+
+        if (assignment.getCodeReviewer() != null)
+            model.addAttribute("codeReviewer");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();

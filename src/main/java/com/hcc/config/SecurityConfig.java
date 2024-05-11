@@ -162,6 +162,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                         .antMatchers("/api/assignments/review").hasRole("REVIEWER")
                         .antMatchers("/api/assignments/review/{\\d+}").hasRole("REVIEWER")
+                        .antMatchers("/rejectproject").hasRole("REVIEWER")
+                        .antMatchers("/completedproject").hasRole("REVIEWER")
                 .antMatchers("/", "/home").permitAll()
                 .antMatchers("/createuser").permitAll()
                 .antMatchers("/api/assignments").permitAll()

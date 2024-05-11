@@ -91,6 +91,7 @@
 </div>
 
 <div class="container">
+    <div th:if="${username}">
     <div class="left-pane">
         <h2>Submit Assignment</h2>
         <form name="f" id="assignmentForm" th:action="@{/api/assignments}" method="post">
@@ -122,6 +123,7 @@
         </form>
 
     </div>
+    </div>
 
     <div class="right-pane">
         <div class="section">
@@ -132,8 +134,10 @@
                         <tr>
                             <th>Branch</th>
                             <th>Assignment #</th>
+                            <th>Status</th>
                             <th>Code Review URL</th>
                             <th>Github URL</th>
+                            <th>Reviewer Assigned</th>
                         </tr>
                         <th:block th:each="assignment : ${rework}">
                             <tr>
@@ -142,8 +146,10 @@
                                     <!-- Create a link with dynamic assignment ID -->
                                     <a th:href="@{/api/assignments/{id}(id=${assignment.id})}" th:text="'Assignment #' + ${assignment.id}"></a>
                                 </td>
+                                <td th:text="${assignment.status}"></td>
                                 <td th:text="${assignment.reviewVideoUrl}"></td>
                                 <td th:text="${assignment.githubUrl}"></td>
+                                <td th:if="${assignment.codeReviewer}" th:text="${assignment.codeReviewer.getUsername()}"></td>
                             </tr>
                         </th:block>
                         </tr>
@@ -161,8 +167,10 @@
                         <tr>
                             <th>Branch</th>
                             <th>Assignment #</th>
+                            <th>Status</th>
                             <th>Code Review URL</th>
                             <th>Github URL</th>
+                            <th>Reviewer Assigned</th>
                         </tr>
                         <th:block th:each="assignment : ${completed}">
                             <tr>
@@ -171,8 +179,10 @@
                                     <!-- Create a link with dynamic assignment ID -->
                                     <a th:href="@{/api/assignments/{id}(id=${assignment.id})}" th:text="'Assignment #' + ${assignment.id}"></a>
                                 </td>
+                                <td th:text="${assignment.status}"></td>
                                 <td th:text="${assignment.reviewVideoUrl}"></td>
                                 <td th:text="${assignment.githubUrl}"></td>
+                                <td th:if="${assignment.codeReviewer}" th:text="${assignment.codeReviewer.getUsername()}"></td>
                             </tr>
                         </th:block>
                         </tr>
@@ -190,8 +200,10 @@
                         <tr>
                             <th>Branch</th>
                             <th>Assignment #</th>
+                            <th>Status</th>
                             <th>Code Review URL</th>
                             <th>Github URL</th>
+                            <th>Reviewer Assigned</th>
                         </tr>
                         <th:block th:each="assignment : ${review}">
                             <tr>
@@ -200,8 +212,10 @@
                                     <!-- Create a link with dynamic assignment ID -->
                                     <a th:href="@{/api/assignments/{id}(id=${assignment.id})}" th:text="'Assignment #' + ${assignment.id}"></a>
                                 </td>
+                                <td th:text="${assignment.status}"></td>
                                 <td th:text="${assignment.reviewVideoUrl}"></td>
                                 <td th:text="${assignment.githubUrl}"></td>
+                                <td th:if="${assignment.codeReviewer}" th:text="${assignment.codeReviewer.getUsername()}"></td>
                             </tr>
                         </th:block>
                         </tr>
