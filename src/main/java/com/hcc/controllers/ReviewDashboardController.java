@@ -6,6 +6,7 @@ import com.hcc.entities.User;
 import com.hcc.repositories.AssignmentRepository;
 import com.hcc.repositories.UserRepository;
 import com.hcc.utils.JwtUtil;
+import com.hcc.utils.TokenChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,6 +32,9 @@ public class ReviewDashboardController {
     @Autowired
     AssignmentRepository assignmentRepository;
 
+    @Autowired
+    TokenChecker tokenChecker;
+
     @RequestMapping(value = "/api/assignments/review", method = RequestMethod.GET)
     public String showDashboard(Model model) {
 
@@ -38,8 +42,16 @@ public class ReviewDashboardController {
         String username = authentication.getName();
         Optional<User> user = userRepository.findByUsername(username);
 
-        if (user.isPresent())
-            model.addAttribute("username", user.get().getUsername());
+//        if (user.isPresent())
+//            model.addAttribute("username", user.get().getUsername());
+
+        if (user.isPresent()) {
+
+            if (tokenChecker.checkIfRoleReviewer(user.get()))
+                model.addAttribute("codereviewer", user.get().getUsername());
+            else
+                model.addAttribute("username", user.get().getUsername());
+        }
 
         //String username = jwtUtil.getUsernameFromToken(jwtUtil.getToken());
 

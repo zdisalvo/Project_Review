@@ -85,12 +85,21 @@
 <body>
 
 <div class="container">
-<div class="navbar">
-    <a href="/">Home</a>
-    <a href="/api/assignments">Assignments</a>
-    <a href="/logout">Logout</a>
-
-</div>
+    <div th:if="${codereviewer}">
+        <div class="navbar">
+            <a href="/">Home</a>
+            <a href="/api/assignments">Assignments</a>
+            <a href="/api/assignments/review"> Review Assignments</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+    <div th:if="${username}">
+        <div class="navbar">
+            <a href="/">Home</a>
+            <a href="/api/assignments">Assignments</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
 
 <div style="padding:16px"></div>
 

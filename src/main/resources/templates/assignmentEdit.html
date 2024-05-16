@@ -6,14 +6,14 @@
     <title>Assignment Details</title>
     <style>
         .navbar {
-            overflow: hidden;
+<!--            overflow: hidden;-->
             background-color: #333;
+            width: 100%;
+            text-align: center;
         }
 
-
         .navbar a {
-            float: left;
-            display: block;
+            display: inline-block; /* Use inline-block to center items */
             color: white;
             text-align: center;
             padding: 14px 20px;
@@ -25,6 +25,10 @@
             background-color: #ddd;
             color: black;
         }
+<!--        .content {-->
+<!--            flex-grow: 1; /* Take up remaining vertical space */-->
+<!--            padding: 20px;-->
+<!--        }-->
 
          body {
             font-family: Arial, sans-serif;
@@ -35,12 +39,22 @@
             align-items: center;
             height: 100vh;
         }
-        .container {
-            width: 60%;
+        .table {
+            margin-top: 20px;
+            max-width: 500px;
             background-color: #f2f2f2;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+<!--            flex-direction: column;-->
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 100%; /* Set container width to 100% */
+            display: flex;
+<!--            flex-direction: column; /* Stack children vertically */-->
         }
         .title {
             text-align: center;
@@ -74,15 +88,26 @@
     </style>
 </head>
 <body>
-
-
 <div class="container">
+<div th:if="${codereviewer}">
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/api/assignments">Assignments</a>
+        <a href="/api/assignments/review"> Review Assignments</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+<div th:if="${username}">
     <div class="navbar">
         <a href="/">Home</a>
         <a href="/api/assignments">Assignments</a>
         <a href="/logout">Logout</a>
-
     </div>
+</div>
+
+
+<div class="table">
+
 
     <div style="padding:16px"></div>
 <div class="title">Assignment Details</div>
@@ -127,6 +152,7 @@
     </fieldset>
     </form>
 
+</div>
 </div>
 </div>
 <script>

@@ -8,12 +8,12 @@
         .navbar {
             overflow: hidden;
             background-color: #333;
+            width: 100%;
+            text-align: center;
         }
 
-
         .navbar a {
-            float: left;
-            display: block;
+            display: inline-block; /* Use inline-block to center items */
             color: white;
             text-align: center;
             padding: 14px 20px;
@@ -57,14 +57,23 @@
 </head>
 <body>
 
-
-<div class="container">
+<div th:if="${codereviewer}">
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/api/assignments">Assignments</a>
+        <a href="/api/assignments/review"> Review Assignments</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+<div th:if="${username}">
     <div class="navbar">
         <a href="/">Home</a>
         <a href="/api/assignments">Assignments</a>
         <a href="/logout">Logout</a>
-
     </div>
+</div>
+
+<div class="container">
 
     <div style="padding:16px"></div>
     <div class="title">Assignment Details</div>
