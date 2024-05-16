@@ -8,12 +8,12 @@
         .navbar {
             overflow: hidden;
             background-color: #333;
+            width: 100%;
+            text-align: center;
         }
 
-
         .navbar a {
-            float: left;
-            display: block;
+            display: inline-block; /* Use inline-block to center items */
             color: white;
             text-align: center;
             padding: 14px 20px;
@@ -26,26 +26,54 @@
             color: black;
         }
 
+        body {
+            font-family: Arial, sans-serif;
+        }
+
         .container {
             display: flex;
+        }
+        .welcome {
+            font-weight: bold;
+            text-align: center;
+        }
+        .submit-title {
+            font-weight: bold;
+            text-align: center;
         }
         .left-pane {
             width: 180px;
             padding: 20px;
+            margin-left: 40px;
             border-right: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #c3d6bf;
         }
         .right-pane {
             flex-grow: 1;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         .submit-form {
             margin-bottom: 20px;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .section {
             margin-bottom: 20px;
         }
         .section-header {
             font-weight: bold;
+            text-align: center;
         }
         .assignment {
             margin-bottom: 10px;
@@ -53,13 +81,13 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        .assignment.completed {
+        .assignment-completed {
             background-color: lightgreen;
         }
-        .assignment.rework {
+        .assignment-rework {
             background-color: lightcoral;
         }
-        .assignment.review {
+        .assignment-review {
             background-color: lightblue;
         }
         table {
@@ -85,15 +113,18 @@
 </div>
 
 <div style="padding:16px"></div>
-
-<div th:if="${username}">
-    <p>Welcome <span id="authUsername" th:text="${username}"></span></p>
-</div>
+    <div class="welcome">
+        <div th:if="${username}">
+            <p>Welcome <span id="authUsername" th:text="${username}"></span></p>
+        </div>
+    </div>
 
 <div class="container">
     <div th:if="${username}">
     <div class="left-pane">
-        <h2>Submit Assignment</h2>
+        <div class="submit-title">
+            <h2>Submit Assignment</h2>
+        </div>
         <form name="f" id="assignmentForm" th:action="@{/api/assignments}" method="post">
             <fieldset>
                 <legend>Submit Assignment</legend>
@@ -128,7 +159,7 @@
     <div class="right-pane">
         <div class="section">
             <h2 class="section-header">Assignments that need rework</h2>
-            <div id="rework-assignments">
+            <div id="rework-assignments" class="assignment-rework">
                 <div th:if="${rework}">
                     <table>
                         <tr>
@@ -161,7 +192,7 @@
 
         <div class="section">
             <h2 class="section-header">Completed Assignments</h2>
-            <div id="completed-assignments">
+            <div id="completed-assignments" class="assignment-completed">
                 <div th:if="${completed}">
                     <table>
                         <tr>
@@ -194,7 +225,7 @@
 
         <div class="section">
             <h2 class="section-header">In Review</h2>
-            <div id="in-review-assignments">
+            <div id="in-review-assignments" class="assignment-review">
                 <div th:if="${review}">
                     <table>
                         <tr>

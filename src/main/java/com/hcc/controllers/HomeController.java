@@ -3,6 +3,7 @@ import com.hcc.entities.Authority;
 import com.hcc.entities.User;
 import com.hcc.repositories.UserRepository;
 import com.hcc.utils.JwtUtil;
+import com.hcc.utils.TokenChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,6 +26,9 @@ public class HomeController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    TokenChecker tokenChecker;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
 
@@ -33,8 +37,9 @@ public class HomeController {
         Optional<User> user = userRepository.findByUsername(username);
 
         if (user.isPresent()) {
+            model.addAttribute("loginsuccess", true);
 
-            if (checkIfRoleReviewer(user.get()))
+            if (tokenChecker.checkIfRoleReviewer(user.get()))
                 model.addAttribute("codereviewer", user.get().getUsername());
             else
                 model.addAttribute("username", user.get().getUsername());
@@ -43,11 +48,11 @@ public class HomeController {
         return "index";
     }
 
-    public boolean checkIfRoleReviewer(User user) {
-        for (GrantedAuthority authority : user.getAuthorities()) {
-            if (authority.getAuthority().equals("ROLE_REVIEWER"))
-                return true;
-        }
-        return false;
-    }
+//    public boolean checkIfRoleReviewer(User user) {
+//        for (GrantedAuthority authority : user.getAuthorities()) {
+//            if (authority.getAuthority().equals("ROLE_REVIEWER"))
+//                return true;
+//        }
+//        return false;
+//    }
 }

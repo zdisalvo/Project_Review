@@ -5,21 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
     <style>
+        .container {
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+        }
         .navbar {
             overflow: hidden;
             background-color: #333;
+            width: 100%;
+            display: flex;
+            justify-content: center; /* Center the menu items horizontally */
         }
 
-
         .navbar a {
-            float: left;
-            display: block;
             color: white;
             text-align: center;
             padding: 14px 20px;
             text-decoration: none;
         }
-
 
         .navbar a:hover {
             background-color: #ddd;
@@ -27,12 +31,25 @@
         }
 
         body {
+            font-family: Arial, sans-serif;
+        }
+
+        .welcome {
+            text-align: center;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px; /* Adjust as needed */
+        }
+
+        body {
             display: flex;
-            flex-direction: column;
+<!--            flex-direction: column;-->
             align-items: center;
             justify-content: center;
-            height: 100vh; /* Set the height of the viewport */
-            margin: 0; /* Remove default margin */
+<!--            height: 100vh; /* Set the height of the viewport */-->
+<!--            margin: 0; /* Remove default margin */-->
         }
         button {
             margin: 10px;
@@ -41,6 +58,7 @@
 
 </head>
 <body>
+<container>
 <div th:if="${codereviewer}">
 <div class="navbar">
     <a href="/">Home</a>
@@ -60,22 +78,28 @@
 <div style="padding:16px"></div>
 
 <h1>The Assignment Review App</h1>
-<div th:if="${token}" id="tokenDiv"></div>
-<div id="token" style="display: none;" th:text="${token}"></div>
-<div th:if="${username}" id="usernameDiv">
-    <p>Welcome <span id="username" th:text="${username}"></span></p>
+<div class="welcome">
+    <div th:if="${token}" id="tokenDiv"></div>
+    <div id="token" style="display: none;" th:text="${token}"></div>
+    <div th:if="${username}" id="usernameDiv">
+        <h2>Welcome <span id="username" th:text="${username}"></span></h2>
+    </div>
+    <div th:if="${codereviewer}" id="codeReviewerDiv">
+        <h2>Welcome <span id="codereviewer" th:text="${codereviewer}"></span></h2>
+    </div>
+    <div id="welcomeMessage"></div>
+    <div th:if="${error}">
+        <p>Please login again</p>
+    </div>
+    <div class="button-container">
+        <div th:unless="${loginsuccess}">
+        <p>Create an Account or Login</p>
+        <button onclick="redirectToCreateAccount()">Create Account</button>
+        <button onclick="redirectToLogin()">Login</button>
+        </div>
+    </div>
 </div>
-<div th:if="${codereviewer}" id="codeReviewerDiv">
-    <p>Welcome <span id="codereviewer" th:text="${codereviewer}"></span></p>
-</div>
-<div id="welcomeMessage"></div>
-<div th:if="${error}">
-    <p>Please login again</p>
-</div>
-<p>Create an Account or Login</p>
-<button onclick="redirectToCreateAccount()">Create Account</button>
-<button onclick="redirectToLogin()">Login</button>
-
+</container>
 <script>
         function redirectToCreateAccount() {
             window.location.href = "/createuser";
